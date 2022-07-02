@@ -11,3 +11,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `Changelog.md`
 - Add Github action for validating `Changelog.md`
 - Update `README.md` usage notes
+- Add `release.yml`
