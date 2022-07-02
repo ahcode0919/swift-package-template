@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
@@ -17,3 +16,9 @@ jobs:
       run: swift build
     - name: Run tests
       run: swift test
+
+  changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: dangoslen/changelog-enforcer@v3
