@@ -1,6 +1,4 @@
-# swift-package-template
-
-![](https://github.com/ahcode0919/swift-package-template/actions/workflows/swift.yml/badge.svg?branch=main)
+# swift-package-template ![](https://github.com/ahcode0919/swift-package-template/actions/workflows/swift.yml/badge.svg?branch=main)
 
 Baseline template for Swift packages
 
@@ -8,8 +6,15 @@ Package description here
 
 ## Commands
 
+- Build project - `swift build`
 - Run unit tests: `swift test`
 - Run formatting/linting: `swift package plugin swiftlint --fix`
+
+Project supports a `Makefile`
+
+- Build - `make build`
+- Test - `make test`
+- Lint - `make lint`
 
 ## Supports
 
