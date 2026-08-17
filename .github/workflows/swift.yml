@@ -11,11 +11,31 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
     - name: Build
-      run: swift build
+      run: SKIP_PLUGINS=1 swift build
     - name: Run tests
-      run: swift test
+      run: SKIP_PLUGINS=1 swift test --enable-code-coverage
+    - name: Enforce coverage threshold
+      run: |
+        THRESHOLD=95
+        BINARY=.build/debug/swift-ds-algorithmsPackageTests.xctest/Contents/MacOS/swift-ds-algorithmsPackageTests
+        PROFDATA=.build/debug/codecov/default.profdata
+
+        xcrun llvm-cov export "$BINARY" \
+          -instr-profile "$PROFDATA" \
+          -ignore-filename-regex='Tests|\.build' \
+          -format=text > coverage.json
+
+        COVERAGE=$(jq '.data[0].totals.lines.percent' coverage.json)
+        echo "Line coverage: ${COVERAGE}% (threshold: ${THRESHOLD}%)"
+
+        if (( $(echo "$COVERAGE < $THRESHOLD" | bc -l) )); then
+          echo "::error::Coverage ${COVERAGE}% is below the ${THRESHOLD}% threshold"
+          exit 1
+        fi
+    - name: Run Linter
+      run: swift package plugin --allow-writing-to-package-directory swiftlint --strict
 
   changelog:
     runs-on: ubuntu-latest
