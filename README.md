@@ -6,6 +6,11 @@ Baseline template for Swift packages
 
 Package description here
 
+## Commands
+
+- Run unit tests: `swift test`
+- Run formatting/linting: `swift package plugin swiftlint --fix`
+
 ## Supports
 
 - Github Actions
