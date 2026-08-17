@@ -1,4 +1,4 @@
-    import XCTest
+import XCTest
     @testable import SwiftPackageTemplate
 
     final class SwiftPackageTemplateTests: XCTestCase {

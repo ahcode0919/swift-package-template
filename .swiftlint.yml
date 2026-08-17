@@ -1,0 +1,7 @@
+disabled_rules:
+  - for_where
+  - identifier_name
+  - large_tuple
+
+excluded:
+  - .build

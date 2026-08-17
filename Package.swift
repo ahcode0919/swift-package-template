@@ -13,7 +13,8 @@ let package = Package(
     products: [
         .library(
             name: "SwiftPackageTemplate",
-            targets: ["SwiftPackageTemplate"]),
+            targets: ["SwiftPackageTemplate"]
+        )
     ],
     dependencies: [
         .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.62.3")
@@ -32,6 +33,6 @@ let package = Package(
             plugins: skipPlugins ? [] : [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
-        ),
+        )
     ]
 )
