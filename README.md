@@ -8,8 +8,15 @@ Package description here
 
 ## Commands
 
+- Build project - `swift build`
 - Run unit tests: `swift test`
 - Run formatting/linting: `swift package plugin swiftlint --fix`
+
+Project supports a `Makefile`
+
+- Build - `make build`
+- Test - `make test`
+- Lint - `make lint`
 
 ## Supports
 
