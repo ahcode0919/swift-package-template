@@ -1,3 +1,5 @@
+migrate:
+	swift Migrate.swift
 build:
 	swift build
 test:

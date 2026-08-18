@@ -4,6 +4,8 @@ Baseline template for Swift packages
 
 Package description here
 
+To run migration script and rename all project values run: `make migrate`
+
 ## Commands
 
 - Build project - `swift build`
