@@ -53,7 +53,7 @@ class Package {
             packageSwift: packageUrl,
             libraryName: libraryName,
             sourceTarget: sourceTarget.name,
-            testTarget: testTarget.name, 
+            testTarget: testTarget.name,
             sourcePath: URL(filePath: sourceTarget.path),
             testPath: URL(filePath: testTarget.path),
             readmeHeader: spmPackage.name
@@ -139,7 +139,6 @@ guard let projectName = newProjectName, let libraryName = newLibraryName else {
     print("Project and Library names not populated")
     throw MigrationError.invalidProjectNames
 }
-
 
 // Update Package.swift
 try FileUpdater.findAndReplace(in: project.packageSwift, find: project.projectName, replaceWith: projectName)
