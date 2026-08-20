@@ -111,6 +111,11 @@ enum FileUpdater {
         let remaining = lines.dropFirst(count).joined(separator: "\n")
         try remaining.write(to: url, atomically: true, encoding: .utf8)
     }
+
+    static func renameFile(from url: URL, to newUrl: URL) throws {
+        let fileManager = FileManager.default
+        try fileManager.moveItem(at: url, to: newUrl)
+    }
 }
 
 enum MigrationError: Error {
@@ -151,8 +156,22 @@ try FileUpdater.findAndReplace(in: readme, find: project.projectName, replaceWit
 try FileUpdater.findAndReplace(in: swiftAction, find: project.projectName, replaceWith: projectName)
 
 // Update directories
-try FileUpdater.moveDirectory(old: project.sourcePath, new: URL(fileURLWithPath: "Sources/\(libraryName)"))
-try FileUpdater.moveDirectory(old: project.testPath, new: URL(fileURLWithPath: "Tests/\(libraryName)Tests"))
+let newSourcesDir = URL(fileURLWithPath: "Sources/\(libraryName)")
+let newTestsDir = URL(fileURLWithPath: "Tests/\(libraryName)Tests")
+try FileUpdater.moveDirectory(old: project.sourcePath, new: newSourcesDir)
+try FileUpdater.moveDirectory(old: project.testPath, new: newTestsDir)
+
+// Update files
+let exampleSourceFile = URL(fileURLWithPath: "Sources/\(libraryName)/SwiftPackageTemplate.swift")
+let exampleTestFile = URL(fileURLWithPath: "Tests/\(libraryName)Tests/SwiftPackageTemplateTests.swift")
+let newExampleSourceFile = URL(fileURLWithPath: "Sources/\(libraryName)/\(libraryName).swift")
+let newExampleTestFile = URL(fileURLWithPath: "Tests/\(libraryName)Tests/\(libraryName)Tests.swift")
+try FileUpdater.renameFile(from: exampleSourceFile, to: newExampleSourceFile)
+try FileUpdater.renameFile(from: exampleTestFile, to: newExampleTestFile)
+
+// Update code names
+try FileUpdater.findAndReplace(in: newExampleSourceFile, find: project.libraryName, replaceWith: libraryName)
+try FileUpdater.findAndReplace(in: newExampleTestFile, find: project.libraryName, replaceWith: libraryName)
 
 // Remove command from Makefile
 try FileUpdater.removeFirstLines(from: URL(fileURLWithPath: "Makefile"), count: 2)
