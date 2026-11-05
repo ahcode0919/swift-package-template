@@ -3,7 +3,6 @@ import Foundation
 // Read project files
 
 let readme = URL(fileURLWithPath: "README.md")
-let swiftAction = URL(fileURLWithPath: ".github/workflows/swift.yml")
 let sourcesDir = URL(fileURLWithPath: "Sources/SwiftPackageTemplate")
 let testsDir = URL(fileURLWithPath: "Tests/SwiftPackageTemplateTests")
 
@@ -151,9 +150,6 @@ try FileUpdater.findAndReplace(in: project.packageSwift, find: project.libraryNa
 
 // Update README.md
 try FileUpdater.findAndReplace(in: readme, find: project.projectName, replaceWith: projectName)
-
-// Update swift.yml
-try FileUpdater.findAndReplace(in: swiftAction, find: project.projectName, replaceWith: projectName)
 
 // Update directories
 let newSourcesDir = URL(fileURLWithPath: "Sources/\(libraryName)")

@@ -1,8 +1,9 @@
-import XCTest
-    @testable import SwiftPackageTemplate
+import Testing
 
-    final class SwiftPackageTemplateTests: XCTestCase {
-        func testExample() {
-            XCTAssertEqual(SwiftPackageTemplate().text, "Hello, World!")
-        }
+@testable import SwiftPackageTemplate
+
+@Suite struct SwiftPackageTemplateTests {
+    @Test func defaultText() {
+        #expect(SwiftPackageTemplate().text == "Hello, World!")
     }
+}
