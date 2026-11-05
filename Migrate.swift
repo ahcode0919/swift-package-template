@@ -105,10 +105,10 @@ enum FileUpdater {
         try fileManager.removeItem(at: url)
     }
 
-    static func removeFirstLines(from url: URL, count: Int) throws {
+    static func removeLines(from url: URL, matching linesToRemove: Set<String>) throws {
         let contents = try String(contentsOf: url, encoding: .utf8)
         let lines = contents.split(separator: "\n", omittingEmptySubsequences: false)
-        let remaining = lines.dropFirst(count).joined(separator: "\n")
+        let remaining = lines.filter { !linesToRemove.contains(String($0)) }.joined(separator: "\n")
         try remaining.write(to: url, atomically: true, encoding: .utf8)
     }
 
@@ -174,7 +174,7 @@ try FileUpdater.findAndReplace(in: newExampleSourceFile, find: project.libraryNa
 try FileUpdater.findAndReplace(in: newExampleTestFile, find: project.libraryName, replaceWith: libraryName)
 
 // Remove command from Makefile
-try FileUpdater.removeFirstLines(from: URL(fileURLWithPath: "Makefile"), count: 2)
+try FileUpdater.removeLines(from: URL(fileURLWithPath: "Makefile"), matching: ["migrate:", "\tswift Migrate.swift"])
 
 // Remove script
 try FileUpdater.delete(file: URL(fileURLWithPath: "Migrate.swift"))
