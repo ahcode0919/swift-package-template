@@ -1,5 +1,8 @@
-.PHONY: migrate build test lint ci-lint
+.PHONY: setup migrate build test lint ci-lint
 
+setup:
+	brew bundle
+	prek install
 migrate:
 	swift Migrate.swift
 build:

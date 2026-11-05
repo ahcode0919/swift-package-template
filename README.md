@@ -14,6 +14,7 @@ To run migration script and rename all project values run: `make migrate`
 
 Project supports a `Makefile`
 
+- Setup (installs [Homebrew](https://brew.sh) tools from `Brewfile` and git hooks) - `make setup`
 - Build - `make build`
 - Test - `make test`
 - Lint (auto-fix) - `make lint`
@@ -26,13 +27,18 @@ Project supports a `Makefile`
   - Unit test
   - Code coverage threshold
   - Lint
+  - prek hooks
 - Release Drafter
   - Drafts the next GitHub Release as pull requests merge into `main`
   - Auto-labels pull requests from branch name, title and changed files
 - Pull request template
+- [prek](https://github.com/j178/prek) git hooks (`prek.toml`)
+  - Whitespace, end-of-file, YAML, merge conflict and large file checks
+  - SwiftLint (strict) on commits that change Swift files
 
 ## Setup Steps
 
+- Run `make setup`
 - Update Badge URL for new repository location
 - Update `Sources` and `Tests` directory names
 - Update `Package.swift` target names to match new directory names
