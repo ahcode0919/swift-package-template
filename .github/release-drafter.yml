@@ -1,0 +1,56 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+
+categories:
+  - type: 'pre-exclude'
+    when:
+      label: 'ignore-for-release'
+  - title: 'Breaking Changes 🛠'
+    semver-increment: 'major'
+    exclusive: true
+    when:
+      label: 'breaking-change'
+  - title: 'New Features 🎉'
+    semver-increment: 'minor'
+    exclusive: true
+    when:
+      label: 'enhancement'
+  - title: 'Bug Fixes 🐛'
+    exclusive: true
+    when:
+      label: 'bug'
+  - title: 'Dependencies ⬆️'
+    collapse-after: 3
+    exclusive: true
+    when:
+      label: 'dependencies'
+  - title: 'Other Changes'
+
+change-template: '- $TITLE (#$NUMBER) $AUTHORS'
+# Prevent markdown formatting in PR titles
+change-title-escapes: '\<*_&'
+
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+autolabeler:
+  - labels: ['breaking-change']
+    title:
+      - '/^\w+(\(.+\))?!:/'
+  - labels: ['enhancement']
+    branch:
+      - '/^feat(ure)?\/.+/'
+    title:
+      - '/^feat(\(.+\))?!?:/i'
+  - labels: ['bug']
+    branch:
+      - '/^(bug)?fix\/.+/'
+    title:
+      - '/^fix(\(.+\))?!?:/i'
+  - labels: ['documentation']
+    files:
+      - '*.md'
+    branch:
+      - '/^docs?\/.+/'

@@ -35,10 +35,16 @@ jobs:
           exit 1
         fi
     - name: Run Linter
-      run: swift package plugin --allow-writing-to-package-directory swiftlint --strict
+      run: make ci-lint
 
-  # changelog:
-  #   runs-on: ubuntu-latest
+  prek:
+    runs-on: ubuntu-slim
 
-  #   steps:
-  #   - uses: dangoslen/changelog-enforcer@v3
+    steps:
+    - uses: actions/checkout@v7
+    - name: Run git hooks
+      uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
+      with:
+        prek-version: latest-known
+        # SwiftLint needs the macOS toolchain and already runs in the build job
+        extra-args: --all-files --skip swiftlint
