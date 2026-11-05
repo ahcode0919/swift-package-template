@@ -1,10 +1,8 @@
-# swift-package-template ![](https://github.com/ahcode0919/swift-package-template/actions/workflows/swift.yml/badge.svg?branch=main)
+# Swift Package Template ![](https://github.com/ahcode0919/swift-package-template/actions/workflows/swift.yml/badge.svg?branch=main)
 
 Baseline template for Swift packages
 
 Package description here
-
-To run migration script and rename all project values run: `make migrate`
 
 ## Commands
 
@@ -19,6 +17,8 @@ Project supports a `Makefile`
 - Test - `make test`
 - Lint (auto-fix) - `make lint`
 - Lint (strict, same as CI) - `make ci-lint`
+- Scan git history for secrets ([gitleaks](https://github.com/gitleaks/gitleaks)) - `make gitleaks`
+- Audit GitHub Actions workflows ([zizmor](https://docs.zizmor.sh)) - `make zizmor`
 
 ## Supports
 
@@ -28,20 +28,26 @@ Project supports a `Makefile`
   - Code coverage threshold
   - Lint
   - prek hooks
+  - Secret scanning (gitleaks)
+  - Workflow security audit (zizmor)
 - Release Drafter
   - Drafts the next GitHub Release as pull requests merge into `main`
   - Auto-labels pull requests from branch name, title and changed files
+- Dependabot
+  - Weekly updates for GitHub Actions (grouped, SHA pins) and Swift packages
+  - 7 day cooldown before adopting new releases
 - Pull request template
 - [prek](https://github.com/j178/prek) git hooks (`prek.toml`)
   - Whitespace, end-of-file, YAML, merge conflict and large file checks
   - SwiftLint (strict) on commits that change Swift files
+  - gitleaks on staged changes
+  - zizmor on commits that change workflows
 
 ## Setup Steps
 
-- Run `make setup`
-- Update Badge URL for new repository location
-- Update `Sources` and `Tests` directory names
-- Update `Package.swift` target names to match new directory names
+- Run `make migrate` to rename the project, library, targets, directories and example files (the script and its `Makefile` target remove themselves when done)
+- Update the badge URL owner for the new repository location
+- Run `make setup` to install tools and git hooks
 - Add application and test files
 - Update this `README.md` file
 

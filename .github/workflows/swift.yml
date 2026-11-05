@@ -6,12 +6,17 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: Build
       run: SKIP_PLUGINS=1 swift build
     - name: Run tests
@@ -41,10 +46,12 @@ jobs:
     runs-on: ubuntu-slim
 
     steps:
-    - uses: actions/checkout@v7
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: Run git hooks
       uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
       with:
         prek-version: latest-known
-        # SwiftLint needs the macOS toolchain and already runs in the build job
-        extra-args: --all-files --skip swiftlint
+        # These hooks run in dedicated jobs (SwiftLint needs the macOS toolchain)
+        extra-args: --all-files --skip swiftlint --skip gitleaks --skip zizmor

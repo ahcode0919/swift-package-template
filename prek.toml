@@ -20,3 +20,17 @@ entry = "make ci-lint"
 language = "system"
 types = ["swift"]
 pass_filenames = false
+
+[[repos.hooks]]
+id = "gitleaks"
+name = "gitleaks"
+entry = "gitleaks git --pre-commit --staged --redact --verbose"
+language = "system"
+pass_filenames = false
+
+[[repos.hooks]]
+id = "zizmor"
+name = "zizmor"
+entry = "zizmor"
+language = "system"
+files = '^\.github/(workflows/.+\.ya?ml|dependabot\.ya?ml)$'
