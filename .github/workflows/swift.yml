@@ -35,10 +35,4 @@ jobs:
           exit 1
         fi
     - name: Run Linter
-      run: swift package plugin --allow-writing-to-package-directory swiftlint --strict
-
-  # changelog:
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #   - uses: dangoslen/changelog-enforcer@v3
+      run: make ci-lint
