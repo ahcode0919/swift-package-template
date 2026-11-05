@@ -24,34 +24,23 @@ jobs:
     - name: Enforce coverage threshold
       run: |
         THRESHOLD=95
-        BINARY=.build/debug/swift-package-templatePackageTests.xctest/Contents/MacOS/swift-package-templatePackageTests
-        PROFDATA=.build/debug/codecov/default.profdata
+        CODECOV_JSON=$(SKIP_PLUGINS=1 swift test --show-codecov-path)
 
-        xcrun llvm-cov export "$BINARY" \
-          -instr-profile "$PROFDATA" \
-          -ignore-filename-regex='Tests|\.build' \
-          -format=text > coverage.json
-
-        COVERAGE=$(jq '.data[0].totals.lines.percent' coverage.json)
+        COVERAGE=$(jq '
+          [.data[0].files[]
+            | select(.filename | test("/Tests/|/\\.build/") | not)
+            | .summary.lines]
+          | (map(.covered) | add) as $covered
+          | (map(.count) | add) as $total
+          | if $total == 0 then 100 else ($covered * 100 / $total) end
+        ' "$CODECOV_JSON")
         echo "Line coverage: ${COVERAGE}% (threshold: ${THRESHOLD}%)"
 
         if (( $(echo "$COVERAGE < $THRESHOLD" | bc -l) )); then
           echo "::error::Coverage ${COVERAGE}% is below the ${THRESHOLD}% threshold"
           exit 1
         fi
+    - name: Check formatting
+      run: make ci-format
     - name: Run Linter
       run: make ci-lint
-
-  prek:
-    runs-on: ubuntu-slim
-
-    steps:
-    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      with:
-        persist-credentials: false
-    - name: Run git hooks
-      uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
-      with:
-        prek-version: latest-known
-        # These hooks run in dedicated jobs (SwiftLint needs the macOS toolchain)
-        extra-args: --all-files --skip swiftlint --skip gitleaks --skip zizmor

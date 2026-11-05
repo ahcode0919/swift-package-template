@@ -23,16 +23,20 @@ let package = Package(
         .target(
             name: "SwiftPackageTemplate",
             dependencies: [],
-            plugins: skipPlugins ? [] : [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: skipPlugins
+                ? []
+                : [
+                    .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+                ]
         ),
         .testTarget(
             name: "SwiftPackageTemplateTests",
             dependencies: ["SwiftPackageTemplate"],
-            plugins: skipPlugins ? [] : [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            plugins: skipPlugins
+                ? []
+                : [
+                    .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+                ]
         )
     ]
 )

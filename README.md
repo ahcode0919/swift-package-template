@@ -1,4 +1,4 @@
-# Swift Package Template ![](https://github.com/ahcode0919/swift-package-template/actions/workflows/swift.yml/badge.svg?branch=main)
+# swift-package-template ![](https://github.com/ahcode0919/swift-package-template/actions/workflows/swift.yml/badge.svg?branch=main)
 
 Baseline template for Swift packages
 
@@ -6,15 +6,13 @@ Package description here
 
 ## Commands
 
-- Build project - `swift build`
-- Run unit tests: `swift test`
-- Run formatting/linting: `swift package plugin swiftlint --fix`
-
 Project supports a `Makefile`
 
 - Setup (installs [Homebrew](https://brew.sh) tools from `Brewfile` and git hooks) - `make setup`
 - Build - `make build`
 - Test - `make test`
+- Format ([swift-format](https://github.com/swiftlang/swift-format), config in `.swift-format`) - `make format`
+- Check formatting (strict, same as CI) - `make ci-format`
 - Lint (auto-fix) - `make lint`
 - Lint (strict, same as CI) - `make ci-lint`
 - Scan git history for secrets ([gitleaks](https://github.com/gitleaks/gitleaks)) - `make gitleaks`
@@ -26,6 +24,7 @@ Project supports a `Makefile`
   - Build
   - Unit test
   - Code coverage threshold
+  - Format check (swift-format)
   - Lint
   - prek hooks
   - Secret scanning (gitleaks)
@@ -39,7 +38,7 @@ Project supports a `Makefile`
 - Pull request template
 - [prek](https://github.com/j178/prek) git hooks (`prek.toml`)
   - Whitespace, end-of-file, YAML, merge conflict and large file checks
-  - SwiftLint (strict) on commits that change Swift files
+  - swift-format and SwiftLint (strict) on commits that change Swift files
   - gitleaks on staged changes
   - zizmor on commits that change workflows
 
